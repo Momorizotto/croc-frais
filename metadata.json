@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Croc'Frais",
+  "description": "The ultimate student companion for eating fresh, healthy food on a budget. Features meal planning, smart shopping lists, and an AI Chef.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
