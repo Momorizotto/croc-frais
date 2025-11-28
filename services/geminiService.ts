@@ -1,13 +1,23 @@
+
 import { GoogleGenAI, Type } from "@google/genai";
 import { UserProfile } from "../types";
 
+// Clé API de secours si la variable d'environnement n'est pas trouvée
+const FALLBACK_API_KEY = "AIzaSyCvq3iMdKD-_ESDe-E8zKeyqBSXMvwpHWU";
+
 const initAI = () => {
-    // We expect the environment variable to be available
-    if (!process.env.API_KEY) {
-        console.error("Missing API_KEY in environment");
+    // On essaie de récupérer la clé depuis l'environnement, sinon on utilise la clé en dur
+    // On vérifie aussi les préfixes courants (VITE_, REACT_APP_) pour Vercel
+    const apiKey = process.env.API_KEY || 
+                   process.env.VITE_API_KEY || 
+                   process.env.REACT_APP_API_KEY || 
+                   FALLBACK_API_KEY;
+
+    if (!apiKey) {
+        console.error("Missing API_KEY");
         return null;
     }
-    return new GoogleGenAI({ apiKey: process.env.API_KEY });
+    return new GoogleGenAI({ apiKey: apiKey });
 };
 
 export const generateRecipeIdea = async (profile: UserProfile, ingredients: string): Promise<string> => {
